@@ -76,7 +76,7 @@ class FRPCoreService : Service(), PlayerNotificationManager.NotificationListener
             .setAudioAttributes(
                 AudioAttributes.Builder()
                     .setUsage(C.USAGE_MEDIA)
-                    .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
+                    .setContentType(C.CONTENT_TYPE_MUSIC)
                     .build(), true
             )
             .setLivePlaybackSpeedControl(
@@ -92,8 +92,6 @@ class FRPCoreService : Service(), PlayerNotificationManager.NotificationListener
             it.addListener(FRPPlayerListener(this, exoPlayer, playerNotificationManager, eventBus))
             it.playWhenReady = false
         }
-
-        exoPlayer?.addAnalyticsListener(EventLogger())
 
         Log.i(TAG, "::::: END FlutterRadioPlayerService::onCreate ::::")
     }
