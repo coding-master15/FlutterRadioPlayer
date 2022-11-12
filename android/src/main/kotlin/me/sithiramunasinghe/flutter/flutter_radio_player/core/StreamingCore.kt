@@ -195,9 +195,9 @@ class StreamingCore : Service(), AudioManager.OnAudioFocusChangeListener {
 
         val audioSource: MediaSource = buildMediaSource(dataSourceFactory, streamUrl!!)
 
-        val playerEvents = object : Player.EventListener {
+        val playerEvents = object : Player.Listener {
 
-            override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+            override fun onPlaybackStateChanged(playWhenReady: Boolean, playbackState: Int) {
                 playbackStatus = when (playbackState) {
                     Player.STATE_BUFFERING -> {
                         pushEvent(FLUTTER_RADIO_PLAYER_LOADING)
