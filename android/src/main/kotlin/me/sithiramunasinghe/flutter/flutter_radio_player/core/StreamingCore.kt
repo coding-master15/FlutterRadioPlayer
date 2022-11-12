@@ -222,7 +222,7 @@ class StreamingCore : Service(), AudioManager.OnAudioFocusChangeListener {
             }
 
 
-            override fun onPlayerErrorChanged(error: ExoPlaybackException) {
+            override fun onPlayerError(error: ExoPlaybackException) {
                 pushEvent(FLUTTER_RADIO_PLAYER_ERROR)
                 playbackStatus = PlaybackStatus.ERROR
                 error.printStackTrace()
