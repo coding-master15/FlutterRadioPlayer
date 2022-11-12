@@ -31,8 +31,6 @@ import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import me.sithiramunasinghe.flutter.flutter_radio_player.FlutterRadioPlayerPlugin.Companion.broadcastActionName
-import me.sithiramunasinghe.flutter.flutter_radio_player.FlutterRadioPlayerPlugin.Companion.broadcastChangedMetaDataName
 import me.sithiramunasinghe.flutter.flutter_radio_player.R
 import me.sithiramunasinghe.flutter.flutter_radio_player.core.enums.PlaybackStatus
 import java.util.concurrent.TimeUnit
@@ -51,8 +49,8 @@ class StreamingCore : Service(), AudioManager.OnAudioFocusChangeListener {
 
     // context
     private val context = this
-    private val broadcastIntent = Intent(broadcastActionName)
-    private val broadcastMetaDataIntent = Intent(broadcastChangedMetaDataName)
+    private val broadcastIntent = Intent("goweonit_broadcast_name")
+    private val broadcastMetaDataIntent = Intent("goweonit_broadcast_meta_name")
 
 
     // class instances
@@ -197,7 +195,7 @@ class StreamingCore : Service(), AudioManager.OnAudioFocusChangeListener {
 
         val playerEvents = object : Player.Listener {
 
-            override fun onPlaybackStateChanged(playWhenReady: Boolean, playbackState: Int) {
+            override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
                 playbackStatus = when (playbackState) {
                     Player.STATE_BUFFERING -> {
                         pushEvent(FLUTTER_RADIO_PLAYER_LOADING)
@@ -224,7 +222,7 @@ class StreamingCore : Service(), AudioManager.OnAudioFocusChangeListener {
             }
 
 
-            override fun onPlayerError(error: ExoPlaybackException) {
+            override fun onPlayerErrorChanged(error: ExoPlaybackException) {
                 pushEvent(FLUTTER_RADIO_PLAYER_ERROR)
                 playbackStatus = PlaybackStatus.ERROR
                 error.printStackTrace()
@@ -372,7 +370,7 @@ class StreamingCore : Service(), AudioManager.OnAudioFocusChangeListener {
      */
     private fun pushEvent(eventName: String) {
         logger.info("Pushing Event: $eventName")
-        localBroadcastManager.sendBroadcast(Intent(broadcastActionName).putExtra("status", eventName))
+        localBroadcastManager.sendBroadcast(Intent("goweonit_broadcast_name").putExtra("status", eventName))
     }
 
     /**
